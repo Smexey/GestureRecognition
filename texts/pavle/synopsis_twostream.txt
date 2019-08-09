@@ -1,0 +1,47 @@
+https://papers.nips.cc/paper/5353-two-stream-convolutional-networks-for-action-recognition-in-videos.pdf
+
+
+Both streams are implemented as ConvNets.
+
+The input to a ConvNet contains multiple flows
+ConvNet input configurations
+    Optical flow stacking.
+    Trajectory stacking.
+    Bi directional. subrtraction polovina vectora da se oduzumu background noise?
+
+ima fina optical flow pricica
+
+mozda malo prekomplikovana za basic model jer koriste nekoliko 
+komponenti optical flowa koje mozda ne mozemo da izgenerisemo? 
+
+pretrain convnet za nas still image!!! fine tuning last layera best results
+
+decreasing learning rate?
+{% comment %} The learning rate is initially set to 10−^2, and then decreased according to a fixed schedule,
+which is kept the same for all training sets. Namely, when training a ConvNet from scratch, the rate
+is changed to 10^−3after 50K iterations, then to 10^-4 after 70K iterations, and training is stopped after 80K iterations {% endcomment %}
+
+
+cropping, flipping, RGB jittering za still image
+{% comment %} dodavanje samplova ili sta? pg5 {% endcomment %}
+
+optical flow problems:
+    floatovi zauzimaju previse prostora pa su ih rescalovali u [0,255]
+    jpeg kompresija
+    koriscen opencv
+
+
+==================twostream==================
+
+
+support vectore machine best fusion results???
+improvement ali ne dovoljno bolji od average da se cimamo?
+
+SVM:
+    support vector machine== supervised learnovan model za kombinovanje softmaxa klasifikacija dve mreze 
+
+najbolji je unidirectional flow sa multi task learning?
+
+multi task learning:
+    paralelno ucenje multi taskova za bolji predict accuracy ili brzinu
+

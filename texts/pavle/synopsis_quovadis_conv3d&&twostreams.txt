@@ -1,0 +1,28 @@
+https://arxiv.org/pdf/1705.07750.pdf
+
+
+inception-v1 imagenet pretrained model
+temporal frame 5/25 original frames
+
+ne postoje c3d pre trained?
+
+
+=========twostream===========
+lstm capturuje high level varijacije ali ne i fIne detail //zasto??
+
+The flow stream has an
+adapted input convolutional layer with twice as many input
+channels as flow frames (because flow has two channels,
+horizontal and vertical), and at test time multiple snapshots
+are sampled from the video and the action prediction is averaged. 
+This was shown to get very high performance on
+existing benchmarks, while being very efficient to train and test.
+
+
+
+fusovanje pre fully connected layera daje bolje rezultate apparnetly
+relevant article:
+    https://feichtenhofer.github.io/pubs/Feichtenhofer_Two_Stream_Fusion_2016_CVPR.pdf
+
+i ovde se uzima 5 frameova 10 frames apart i za rgb i za flow
+5x7x7 feature grid ????? kako 7 ??? koji se ubaci u inception-v1
