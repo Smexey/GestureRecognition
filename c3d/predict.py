@@ -109,9 +109,9 @@ def main():
     trainset = GesturesDataset("c3d\\splittraindata\\train", labelsdict)
     validset = GesturesDataset("c3d\\splittraindata\\valid", labelsdict)
     dataloaders['train'] = torch.utils.data.DataLoader(
-        trainset, batch_size=1, num_workers=2)
+        trainset, batch_size=1, num_workers=2,shuffle=True)
     dataloaders['valid'] = torch.utils.data.DataLoader(
-        validset, batch_size=1, num_workers=2)
+        validset, batch_size=1, num_workers=2,shuffle=True)
 
     dataset_sizes['train'] = len(trainset)
     dataset_sizes['valid'] = len(validset)
