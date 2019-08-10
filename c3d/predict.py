@@ -81,7 +81,7 @@ def main():
     # load a clip to be predicted
 
     # X = get_sport_clip('roger')
-    X = get_gesture_clip('data\\3919')
+    X = get_gesture_clip('c3d\\data\\3919')
 
     # X = torch.rand(size=(3,13,112,112))
     X = Variable(X)
@@ -89,7 +89,7 @@ def main():
 
     # get network pretrained model
     net = C3D()
-    net.load_state_dict(torch.load('c3d.pickle'))
+    net.load_state_dict(torch.load('c3d\\c3d.pickle'))
 
     # cast net to new net
     import NEW_model
@@ -102,12 +102,12 @@ def main():
     from New_dataset import GesturesDataset
     from New_dataset import loadlabelsdict
 
-    labelsdict = loadlabelsdict("jester-v1-train.csv")
+    labelsdict = loadlabelsdict("c3d\\jester-v1-train.csv")
     dataloaders = {}
     dataset_sizes = {}
 
-    trainset = GesturesDataset("splittraindata\\train", labelsdict)
-    validset = GesturesDataset("splittraindata\\valid", labelsdict)
+    trainset = GesturesDataset("c3d\\splittraindata\\train", labelsdict)
+    validset = GesturesDataset("c3d\\splittraindata\\valid", labelsdict)
     dataloaders['train'] = torch.utils.data.DataLoader(
         trainset, batch_size=1, num_workers=2)
     dataloaders['valid'] = torch.utils.data.DataLoader(

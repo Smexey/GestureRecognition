@@ -2,14 +2,6 @@
 from torch.utils.data import Dataset, DataLoader
 import os
 
-def loadlabelsdict(labelscsv_dir):
-    labelsdict = {}
-    with open(labelscsv_dir, "r") as f:
-        for line in f:
-            videoid, label = line.split(";")
-            labelsdict[int(videoid)] = label.split("\n")[0]
-
-    return labelsdict
 
 import torch
 from torch.autograd import Variable
@@ -22,6 +14,17 @@ from skimage.transform import resize
 
 from C3D_model import C3D
 import numpy as np
+
+
+def loadlabelsdict(labelscsv_dir):
+    labelsdict = {}
+    with open(labelscsv_dir, "r") as f:
+        for line in f:
+            videoid, label = line.split(";")
+            labelsdict[int(videoid)] = label.split("\n")[0]
+
+    return labelsdict
+
 
 def load_clip(clip_name, verbose=False):
     clip = sorted(glob(join(clip_name, '*.jpg')))

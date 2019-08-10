@@ -2,7 +2,6 @@
 
 
 import torch.nn as nn
-import C3D_model
 
 class newmodule(nn.Module):
 
@@ -10,8 +9,6 @@ class newmodule(nn.Module):
     def __init__(self,pretrained):
         super(newmodule, self).__init__()
 
-        # pretrained = C3D_model.C3D(pretrained)
-        
         self.conv1 = pretrained.conv1
         self.pool1 = pretrained.pool1
 
