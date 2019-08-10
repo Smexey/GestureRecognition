@@ -28,8 +28,9 @@ def loadlabelsdict(labelscsv_dir):
 
 def load_clip(clip_name, verbose=False):
     clip = sorted(glob(join(clip_name, '*.jpg')))
-    clip = np.array([resize(io.imread(frame), output_shape=(
-        112, 200), preserve_range=True) for frame in clip])
+    temp = [resize(io.imread(frame), output_shape=(
+        112, 200), preserve_range=True) for frame in clip]
+    clip = np.array(temp)
     clip = clip[:, :, 44:44+112, :]  # crop centrally
 
     if verbose:
@@ -42,6 +43,7 @@ def load_clip(clip_name, verbose=False):
     clip = np.float32(clip)
 
     return torch.from_numpy(clip)
+
 
 class GesturesDataset(Dataset):
 
@@ -67,6 +69,9 @@ class GesturesDataset(Dataset):
         clip = load_clip(videopath)
         label = self.labelsdict[int(videoid)]
         n = self.labeltoint[label]
-        if(int(videoid)==3919):
-            print("LABELA 3919: "+str(n))
+        label = [0 for _ in range(len(self.labeltoint))]
+        label[n] = 1
+        
+        # if(int(videoid) == 3919):
+            # print("LABELA 3919: "+str(n))
         return clip, n

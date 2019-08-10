@@ -10,21 +10,24 @@ def train(net, dataloaders, dataset_sizes):
     since = time.time()
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-    scheduler = torch.optim.lr_scheduler.StepLR(
-        optimizer, step_size=7, gamma=0.1)
+    optimizer = optim.Adam(net.parameters(), lr=10e-6)
+
     best_acc = 0.0
 
     # net = C3D_model.C3D(net)
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     net.freeze()
+    num_of_epochs = 15
     
-    for epoch in range(3):
-        print('Epoch {}/{}'.format(epoch, 3 - 1))
+    for epoch in range(num_of_epochs):
+        omaseni = [0, 0, 0, 0, 0, 0]
+        if(epoch == 5):
+            net.unfreeze_all()
+
+        print('Epoch {}/{}'.format(epoch, num_of_epochs))
         print('-' * 10)
         for phase in ['train', 'valid']:
             if phase == 'train':
-                scheduler.step()
                 net.train()  # Set model to training mode
             else:
                 net.eval()   # Set model to evaluate mode
@@ -33,13 +36,9 @@ def train(net, dataloaders, dataset_sizes):
             running_corrects = 0
 
             # Iterate over data.
-            cnt = 0
-
             for inputs, labels in dataloaders[phase]:
-                # print(cnt)
-                cnt += 1
+
                 inputs = inputs.to(device)
-                #('Doing other things',)
                 labels = labels.to(device)
 
                 # zero the parameter gradients
@@ -50,10 +49,13 @@ def train(net, dataloaders, dataset_sizes):
 
                 with torch.set_grad_enabled(phase == 'train'):
                     outputs = net(inputs)
-                    _, preds = torch.max(outputs, 1)
+                    chanceofpred, preds = torch.max(outputs, 1)
                     loss = criterion(outputs, labels)
-
+                    print("certainty: {} loss: {} hitpredict: {} label: {}".format(
+                        *chanceofpred, loss.item(), *(preds == labels.data), *labels.data))
                     # backward + optimize only if in training phase
+                    if(not (preds == labels.data)):
+                        omaseni[preds] += 1
                     if phase == 'train':
                         loss.backward()
                         optimizer.step()
@@ -72,10 +74,13 @@ def train(net, dataloaders, dataset_sizes):
             if phase == 'val' and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(net.state_dict())
-
+        print("OMASENI LABEL VEKTOR: ", omaseni)        
         print("\n")
+        import os
+        torch.save(net.state_dict(),os.path.join("checkpoints\\","adam10e5"+str(epoch)+ "_"+ "{:.4f}".format(epoch_acc)))
 
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(
         time_elapsed // 60, time_elapsed % 60))
     print('Best val Acc: {:4f}'.format(best_acc))
+    print("OMASENI LABEL VEKTOR: ", omaseni)

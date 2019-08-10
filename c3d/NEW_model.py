@@ -34,8 +34,8 @@ class newmodule(nn.Module):
         # self.fc8 = nn.Linear(4096, 487)
         
         #dodati novi layer?
-        self.fc8 = nn.Linear(4096,6)
-        
+        self.fc8 = pretrained.fc8
+        self.fc9 = nn.Linear(487,5)
         self.dropout = nn.Dropout(p=0.5)
 
         self.relu = nn.ReLU()
@@ -67,8 +67,9 @@ class newmodule(nn.Module):
         h = self.dropout(h)
         h = self.relu(self.fc7(h))
         h = self.dropout(h)
-
-        logits = self.fc8(h)
+        h = self.relu(self.fc8(h))
+        h = self.dropout(h)
+        logits = self.fc9(h)
         probs = self.softmax(logits)
 
         return probs
@@ -89,6 +90,32 @@ class newmodule(nn.Module):
         self.conv4b.requires_grad = False
         self.pool4.requires_grad = False
 
+        self.conv5a.requires_grad = False
+        self.conv5b.requires_grad = False
+        self.pool5.requires_grad = False
+
+        self.fc6.requires_grad = True
+        self.fc7.requires_grad = True
+        self.fc8.requires_grad = True
+        self.fc9.requires_grad = True
+
+
+    def unfreeze_all(self):
+        print("FROZEN")
+        self.conv1.requires_grad = True
+        self.pool1.requires_grad = True
+
+        self.conv2.requires_grad = True
+        self.pool2.requires_grad = True
+
+        self.conv3a.requires_grad = True
+        self.conv3b.requires_grad = True
+        self.pool3.requires_grad = True
+
+        self.conv4a.requires_grad = True
+        self.conv4b.requires_grad = True
+        self.pool4.requires_grad = True
+
         self.conv5a.requires_grad = True
         self.conv5b.requires_grad = True
         self.pool5.requires_grad = True
@@ -96,3 +123,4 @@ class newmodule(nn.Module):
         self.fc6.requires_grad = True
         self.fc7.requires_grad = True
         self.fc8.requires_grad = True
+        self.fc9.requires_grad = True

@@ -134,7 +134,7 @@ def main():
 
     print(prediction)
 
-    print()
+    print("Predict treba da bude 2")
     print()
 
     top_inds = prediction[0].argsort()[::-1][:5]
