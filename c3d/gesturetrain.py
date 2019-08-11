@@ -79,8 +79,8 @@ def train(net, dataloaders, dataset_sizes):
                 running_corrects += torch.sum(preds == labels.data)
                 
 
-                writer.add_scalar('currloss'+ phase, running_loss/(iteration+1), iteration)
-                writer.add_scalar('curracc'+ phase, running_corrects/(iteration+1), iteration)
+                # writer.add_scalar('currloss'+ phase, running_loss/(iteration+1), iteration)
+                # writer.add_scalar('curracc'+ phase, running_corrects/(iteration+1), iteration)
 
 
 
