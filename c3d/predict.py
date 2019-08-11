@@ -91,10 +91,12 @@ def main():
     net = C3D()
     net.load_state_dict(torch.load('c3d\\c3d.pickle'))
 
+
     # cast net to new net
     import NEW_model
 
     net = NEW_model.newmodule(net)
+    # net.load_state_dict(torch.load('checkpoints\\adam10e6eps1220_0.6531'))
 
     net.cuda()
 

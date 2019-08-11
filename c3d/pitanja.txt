@@ -1,1 +1,8 @@
 
+dodamo tensorboard loss acc/ val training
+
+
+trening na celom dataset
+
+samo poslednji sloj otkljucan konstantno
+

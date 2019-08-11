@@ -94,14 +94,14 @@ class newmodule(nn.Module):
         self.conv5b.requires_grad = False
         self.pool5.requires_grad = False
 
-        self.fc6.requires_grad = True
-        self.fc7.requires_grad = True
-        self.fc8.requires_grad = True
+        self.fc6.requires_grad = False
+        self.fc7.requires_grad = False
+        self.fc8.requires_grad = False
         self.fc9.requires_grad = True
 
 
     def unfreeze_all(self):
-        print("FROZEN")
+        print("UNFROZEN")
         self.conv1.requires_grad = True
         self.pool1.requires_grad = True
 
