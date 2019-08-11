@@ -27,11 +27,14 @@ def loadlabelsdict(labelscsv_dir):
 
 
 def load_clip(clip_name, verbose=False):
+
     clip = sorted(glob(join(clip_name, '*.jpg')))
+    
     temp = [resize(io.imread(frame), output_shape=(
         112, 112), preserve_range=True) for frame in clip]
     clip = np.array(temp)
     # clip = clip[:, :, 44:44+112, :]  # crop centrally
+    # clip = np.array(temp[5:35])
 
     if verbose:
         clip_img = np.reshape(clip.transpose(1, 0, 2, 3), (112, 13 * 112, 3))

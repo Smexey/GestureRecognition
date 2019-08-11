@@ -63,10 +63,7 @@ def train(net, dataloaders, dataset_sizes):
                     loss = criterion(outputs, labels)
                     print("certainty: {} loss: {} hitpredict: {} label: {}".format(
                         *chanceofpred, loss.item(), *(preds == labels.data), *labels.data))
-
                     
-                    
-
                     # backward + optimize only if in training phase
                     if(not (preds == labels.data)):
                         omaseni[preds] += 1
@@ -77,11 +74,12 @@ def train(net, dataloaders, dataset_sizes):
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
-                
 
                 # writer.add_scalar('currloss'+ phase, running_loss/(iteration+1), iteration)
                 # writer.add_scalar('curracc'+ phase, running_corrects/(iteration+1), iteration)
-
+                                   
+                writer.add_scalar('runloss'+ phase+"_ep_"+str(epoch), float(running_loss)/(iteration+1.0), iteration)
+                writer.add_scalar('runacc'+ phase+"_ep_"+str(epoch), float(running_corrects)/(iteration+1.0), iteration)
 
 
             epoch_loss = running_loss / dataset_sizes[phase]
@@ -101,7 +99,7 @@ def train(net, dataloaders, dataset_sizes):
         print("\n")
         import os
         torch.save(net.state_dict(), os.path.join(
-            "checkpoints\\", "adam10e6eps12regul01"+str(epoch) + "_" + "{:.4f}".format(epoch_acc)))
+            "checkpoints\\", "adam10e6eps12regul01-epoch"+str(epoch) + "_" + "{:.4f}".format(epoch_acc)))
 
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(
