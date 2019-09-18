@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-
+print("asdf")
 class C3D(nn.Module):
     """
     The C3D network as described in [1]
